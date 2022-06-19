@@ -9,6 +9,9 @@ namespace zadaniedodatkowe.Entities
 {
     public class DatabaseContext : DbContext
     {
+        public DbSet<Game> Games { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<GameCompany> GameCompanies { get; set; }
         public DatabaseContext(DbContextOptions options) : base(options)
         {
         }

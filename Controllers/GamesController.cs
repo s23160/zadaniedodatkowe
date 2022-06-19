@@ -42,7 +42,7 @@ namespace zadaniedodatkowe.Controllers
 
                     foreach (var gameCompany in body.Companies){
                         if(await _service.GetCompanyById(gameCompany.IdCompany).FirstOrDefaultAsync().ConfigureAwait(false) is null){
-                            return NotFound($"Nie znaleziono firmy o ID: {gameCompany.IdCompany}");
+                            return NotFound($"Nie znaleziono firmy z ID: {gameCompany.IdCompany}");
                         }
 
                         await _service.Create(new GameCompany

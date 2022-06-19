@@ -52,6 +52,13 @@ namespace zadaniedodatkowe.Entities
                         Name = "CD Projekt RED",
                         Location = "Warszawa",
                         CreationDate = new System.DateTime(2002, 6, 5)
+                    },
+                    new Company
+                    {
+                        IdCompany = 2,
+                        Name = "FromSoftware",
+                        Location = "Japonia",
+                        CreationDate = new System.DateTime(2004, 6, 5)
                     }
                 );
             });

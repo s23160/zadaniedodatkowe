@@ -22,14 +22,11 @@ namespace zadaniedodatkowe.Controllers
            _service = service;
         }
 
-        [HttpPost("{idCompany}")]
-        public async Task<IActionResult> AddGameToCompany(int idCompany, GamePost body)
+        [HttpPost("companies")]
+        public async Task<IActionResult> AddGameToCompany(GamePost body)
         {
             if(!ModelState.IsValid){
                 return BadRequest("Bledne dane");
-            }
-            if(await _service.GetCompanyById(idCompany).FirstOrDefaultAsync() is null){
-                return NotFound("Nie znaleziono firmy");
             }
 
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled)){
@@ -43,14 +40,17 @@ namespace zadaniedodatkowe.Controllers
                     await _service.Create(game);
                     await _service.SaveChanges();
 
-                    var gameComapny = new GameCompany
-                    {
-                        IdGame = game.IdGame,
-                        IdCompany = idCompany
-                    };
-                    
-                    await _service.Create(gameComapny);
-                    await _service.SaveChanges();
+                    foreach (var gameCompany in body.Companies){
+                        if(await _service.GetCompanyById(gameCompany.IdCompany).FirstOrDefaultAsync().ConfigureAwait(false) is null){
+                            return NotFound($"Nie znaleziono firmy o ID: {gameCompany.IdCompany}");
+                        }
+
+                        await _service.Create(new GameCompany
+                        {
+                            IdGame = game.IdGame,
+                            IdCompany = gameCompany.IdCompany
+                        });
+                    }
 
                     scope.Complete();
                     

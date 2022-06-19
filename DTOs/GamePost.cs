@@ -13,5 +13,14 @@ namespace zadaniedodatkowe.DTOs
         public DateTime? ReleaseDate {get; set;}
         [Required]
         public string Description {get; set;}
+        [Required]
+        public List<GameCompanyPost> Companies { get; set; }
+
+    }
+    
+    public class GameCompanyPost
+    {
+        [Required]
+        public int IdCompany {get; set;}
     }
 }
